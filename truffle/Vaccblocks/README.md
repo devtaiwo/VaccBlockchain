@@ -1,5 +1,5 @@
-# Ethereum-Pet-Shop
-Your first dapp- an adoption tracking system for a pet shop. The complete tutorial from Truffle can be found [here](http://truffleframework.com/tutorials/pet-shop).
+# Vaccblocks
+Dapp to allow for storage of patient vaccination records in eth blockchain. 
 
 # Setting up the development environment
 There are a few technical requirements before we start. Please install the following:
