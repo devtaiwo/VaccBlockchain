@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+   name: nfs
+spec:
+   capacity:
+      storage: 100Mi
+   accessModes:
+      - ReadWriteMany
+   nfs:
+     server: gamingpc.nayatronix.com
+     path: "/fabric-helm"
+
+---
+
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+   name: fabric-pvc 
+spec:
+  storageClassName: "nfs"
+  accessModes:
+   - ReadWriteOnce
+  resources:
+     requests:
+        storage: 100Mi
