@@ -1,5 +1,5 @@
 # Vaccblocks
-Dapp to allow for storage of patient vaccination records in eth blockchain. 
+Dapp proto to allow for storage of patient vaccination records in eth blockchain. 
 
 # Setting up the development environment
 There are a few technical requirements before we start. Please install the following:
