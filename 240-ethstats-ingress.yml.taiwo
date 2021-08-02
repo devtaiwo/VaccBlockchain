@@ -1,0 +1,48 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: eth-ethstats
+  namespace: the-project
+  labels:
+    app: eth-ethstats
+  annotations:
+    kubernets.io/ingress.class: "nginx"
+    
+spec:
+  
+  rules:
+  - host: eth-ethstats.dev0.tnetpro.co.uk
+    http:
+      paths:
+      - backend:
+          service:
+            name: eth-ethstats
+            port:
+              name: http
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - eth-ethstats.dev0.tnetpro.co.uk
+    secretName: eth-ethstats.dev0.tnetpro.co.uk
+
+
+
+---
+
+
+
+# Define certificate
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: eth-ethstats.dev0.tnetpro.co.uk
+  namespace: the-project
+spec:
+  secretName: eth-ethstats.dev0.tnetpro.co.uk 
+  issuerRef:
+    name: dev0-letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: eth-ethstats.dev0.tnetpro.co.uk
+  dnsNames:
+  - eth-ethstats.dev0.tnetpro.co.uk

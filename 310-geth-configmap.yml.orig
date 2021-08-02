@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: eth-geth
+  namespace: the-project
+  labels:
+    app: eth-geth
+data:
+  networkid: "8189450821"
+  genesis.json: |- 
+                { 
+                  "config": { 
+                    "chainId": 8189450821, 
+                    "homesteadBlock": 0, 
+                    "eip150Block": 0, 
+                    "eip155Block": 0, 
+                    "eip158Block": 0 
+                   }, 
+                   "difficulty": "0x400", 
+                   "gasLimit": "2000000", 
+                   "nonce" : "0x000000000BADCAFE", 
+                   "alloc": { 
+                      "0xa519503f1fac925ac5eaf8a107f486e4a6c676fa": {
+                      "balance": "100000000000000000000" 
+                      }, 
+                      "0xcf1d26c3e8d02b2e09a31a3574250f0edeb5baa9": {
+                      "balance": "200000000000000000000" 
+                      },
+                      "0x140d3c0addfae4edcb71fabb737cafc9231bcbe5": { 
+                      "balance": "300000000000000000000" 
+                      } 
+                    } 
+                  }

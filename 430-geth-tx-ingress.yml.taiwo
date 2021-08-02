@@ -1,0 +1,48 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: eth-geth-tx
+  namespace: the-project
+  labels:
+    app: eth-geth-tx
+  annotations:
+    kubernets.io/ingress.class: "nginx"
+    
+spec:
+  
+  rules:
+  - host: eth-geth-tx.dev0.tnetpro.co.uk
+    http:
+      paths:
+      - backend:
+          service:
+            name: eth-geth-tx
+            port:
+              name: 8545 
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - eth-geth-tx.dev0.tnetpro.co.uk
+    secretName: eth-geth-tx.dev0.tnetpro.co.uk
+
+
+
+---
+
+
+
+# Define certificate
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: eth-geth-tx.dev0.tnetpro.co.uk
+  namespace: the-project
+spec:
+  secretName: eth-geth-tx.dev0.tnetpro.co.uk 
+  issuerRef:
+    name: dev0-letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: eth-geth-tx.dev0.tnetpro.co.uk
+  dnsNames:
+  - eth-geth-tx.dev0.tnetpro.co.uk

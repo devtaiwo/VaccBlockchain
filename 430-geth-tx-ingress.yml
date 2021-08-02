@@ -1,0 +1,46 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: eth-geth-tx
+  namespace: the-project
+  annotations:
+    #kubernetes.io/ingress.class: traefik
+    #ingress.kubernetes.io/auth-type: basic
+    #ingress.kubernetes.io/auth-secret: traefik-dashboard-auth 
+spec:
+  #entryPoints:
+  #  - web
+  #  - websecure
+  routes:
+    - match: Host(`eth-geth-tx-the-project.consul.vmware.nayatronix.com`) 
+      kind: Rule
+      services:
+      - name: eth-geth-tx
+        port: 8545 
+  tls:
+    secretName: eth-geth-tx-the-project.consul.vmware.nayatronix.com
+    #certResolver: vault-pki
+    #secretName: traefik-dashboard-vmware-nayatronix-com-cert
+
+
+
+
+---
+
+
+
+# Define certificate
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: eth-geth-tx-the-project.consul.vmware.nayatronix.com 
+  namespace: the-project
+spec:
+  secretName: eth-geth-tx-the-project.consul.vmware.nayatronix.com
+  issuerRef:
+    name: vault-clusterissuer
+    kind: ClusterIssuer
+  commonName: eth-geth-tx-the-project.consul.vmware.nayatronix.com
+  dnsNames:
+  - eth-geth-tx-the-project.consul.vmware.nayatronix.com
+

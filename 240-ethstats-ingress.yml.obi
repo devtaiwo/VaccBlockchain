@@ -1,0 +1,74 @@
+#apiVersion: extensions/v1beta1
+#kind: Ingress
+#metadata:
+#  name: eth-ethstats
+#  namespace: the-project
+#  labels:
+#    app: eth-ethstats
+#  annotations:
+#    kubernetes.io/ingress.class: traefik
+#    ingress.kubernetes.io/auth-type: "basic"
+#    ingress.kubernetes.io/auth-secret: "eth-ethstats-secret"
+#spec:
+#  rules:
+#  - host: eth-ethstats-the-project.consul.vmware.nayatronix.com
+#  #- host: eth-ethstats.dev1.tnetpro.co.uk
+#    http:
+#      paths:
+#      - backend:
+#          serviceName: eth-ethstats
+#          servicePort: 80
+#        path: /
+#  tls:
+#  - hosts:
+#    - eth-ethstats-the-project.consul.vmware.nayatronix.com
+#    #- eth-ethstats.dev1.tnetpro.co.uk
+#    secretName: eth-ethstats-the-project.consul.vmware.nayatronix.com 
+#    #secretName: eth-ethstats.dev1.tnetpro.co.uk
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: eth-ethstats
+  namespace: the-project
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    ingress.kubernetes.io/auth-type: "basic"
+    ingress.kubernetes.io/auth-secret: "eth-ethstats-secret"
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(`eth-ethstats-the-project.consul.vmware.nayatronix.com`)
+      kind: Rule
+      services:
+        - name: eth-ethstats 
+          port: 80
+  tls:
+    secretName: eth-ethstats-the-project.consul.vmware.nayatronix.com
+    #certResolver: vault-pki
+
+
+
+---
+
+
+
+# Define certificate
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: eth-ethstats-the-project.consul.vmware.nayatronix.com 
+  namespace: the-project
+spec:
+  secretName: eth-ethstats-the-project.consul.vmware.nayatronix.com 
+  issuerRef:
+    name: vault-clusterissuer
+    kind: ClusterIssuer
+  commonName: eth-ethstats-the-project.consul.vmware.nayatronix.com
+  dnsNames:
+  - eth-ethstats-the-project.consul.vmware.nayatronix.com
+
